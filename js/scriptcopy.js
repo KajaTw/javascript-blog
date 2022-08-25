@@ -132,6 +132,7 @@ function generateTags() {
       /* add generated code to html variable */
 
       html = html + linkHTML;
+      console.log(html);
 
       /* END LOOP: for each tag */
     }
@@ -198,7 +199,7 @@ function tagClickHandler(event) {
 
 function addClickListenersToTags() {
   /* find all links to tags */
-  const optArticleTagsSelector = 'a[href^="#tag-"]';
+  const optArticleTagsSelector = ;
   const links = document.querySelectorAll(optArticleTagsSelector);
 
   /* START LOOP: for each link */
@@ -238,7 +239,6 @@ function generateAuthors() {
 
     const linkHTML =
       '<li><a href="#tag-' + authors + '">' + authors + "</a></li>";
-      console.log(linkHTML);
 
     /* add generated code to the html variable */
 
@@ -256,8 +256,12 @@ function generateAuthors() {
 generateAuthors();
 
 // Tag cloud //
-function generateTagCloud() {
-  const optTagsListSelector = ".tags.list", optArticleTagsSelector = ".post-tags .list", optArticleSelector = ".post";
+
+
+function generateTags(){
+  const optTagsListSelector = ".tags.list",
+optArticleTagsSelector = ".post-tags .list",
+optArticleSelector = ".post";
 
   /* [NEW] create a new variable allTags with an empty array */
   let allTags = [];
@@ -284,21 +288,23 @@ function generateTagCloud() {
     for (let tag of tags) {
 
       /* generate HTML of the link */
-      const linkHTML = '<li><a href="#tag-' + tag + '">' + tag + "</a></li>";
+      const linkHTML =
+      '<li><a href="#tag-' + tag + '">' + tag + "</a></li>";
+      console.log(linkHTML);
 
       /* add generated code to html variable */
       let html = html + linkHTML;
       /* [NEW] check if this link is NOT already in allTags */
-      if (allTags.indexOf(linkHTML) == -1) {
+      if(allTags.indexOf(linkHTML) == -1){
         /* [NEW] add generated code to allTags array */
         allTags.push(linkHTML);
       }
 
-      /* END LOOP: for each tag */
+    /* END LOOP: for each tag */
     }
     /* insert HTML of all the links into the tags wrapper */
-    wrapper.innerHTML = html;
-    /* END LOOP: for every article: */
+wrapper.push(linkHTML);
+  /* END LOOP: for every article: */
   }
   /* [NEW] find list of tags in right column */
   const tagList = document.querySelector(optTagsListSelector);
@@ -306,4 +312,3 @@ function generateTagCloud() {
   /* [NEW] add html from allTags to tagList */
   tagList.innerHTML = allTags.join(' ');
 }
-generateTagCloud();
