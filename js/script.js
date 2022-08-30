@@ -1,5 +1,8 @@
 "use strict";
 
+const optCloudClassCount = 5,
+optCloudClassPrefix = 'tag-size-';
+
 function titleClickHandler(event) {
   event.preventDefault();
   const clickedElement = this;
@@ -43,7 +46,7 @@ function titleClickHandler(event) {
 
 //* generate links *//
 
-function generateTitleLinks(customSelector = "") {
+function generateTitleLinks(customSelector = ''){
   const optArticleSelector = ".post",
     optTitleSelector = ".post-title",
     optArticleTagsSelector = ".post-tags .list",
@@ -61,9 +64,7 @@ function generateTitleLinks(customSelector = "") {
 
   /* [DONE] for each article */
 
-  const articles = document.querySelectorAll(
-    optArticleSelector + customSelector
-  );
+  const articles = document.querySelectorAll(optArticleSelector + customSelector);
   let html = "";
 
   for (let article of articles) {
@@ -161,7 +162,7 @@ function tagClickHandler(event) {
 
   /* make a new constant "tag" and extract tag from the "href" constant */
 
-  const tag = href.replace("#tag-", "");
+  const tag = href.replace('#tag-', '');
 
   /* find all tag links with class active */
 
@@ -255,12 +256,39 @@ function generateAuthors() {
 }
 generateAuthors();
 
+// function calculateTagsParams
+
+function calculateTagsParams(tags) {
+  let params = {max: 0, min: 999999};
+  for(let tag in tags){
+    console.log(tag + ' is used ' + tags[tag] + ' times');
+    if(tags[tag] > params.max){
+      params.max = tags[tag];
+    }
+    else if(tags[tag] < params.min){
+      params.min = tags[tag];
+    }
+  }
+  console.log(params);
+return(params);
+
+}
+calculateTagsParams();
+
+function calculateTagClass(count, params) {
+  const normalizedCount = count - params.min;
+  const normalizedMax = params.max - params.min;
+  const percentage = normalizedCount / normalizedMax;
+  const classNumber = Math.floor( percentage * (optCloudClassCount - 1) +1 );
+  return(optCloudClassPrefix + classNumber);
+}
+
 // Tag cloud //
 function generateTagCloud() {
   const optTagsListSelector = ".tags.list", optArticleTagsSelector = ".post-tags .list", optArticleSelector = ".post";
 
-  /* [NEW] create a new variable allTags with an empty array */
-  let allTags = [];
+  /* [NEW] create a new variable allTags with an empty object */
+  let allTags = {};
 
   /* find all articles */
   const articles = document.querySelectorAll(optArticleSelector);
@@ -279,21 +307,19 @@ function generateTagCloud() {
 
     /* split tags into array */
     const tagsArray = tags.split(" ");
-
     /* START LOOP: for each tag */
-    for (let tag of tags) {
-
+    for (let tag of tagsArray) {
       /* generate HTML of the link */
-      const linkHTML = '<li><a href="#tag-' + tag + '">' + tag + "</a></li>";
-
+      const linkHTML = '<li><a href="#tag-'+ tag +'">' + tag + '</a></li>';
       /* add generated code to html variable */
-      let html = html + linkHTML;
+      html = html + linkHTML;
       /* [NEW] check if this link is NOT already in allTags */
-      if (allTags.indexOf(linkHTML) == -1) {
-        /* [NEW] add generated code to allTags array */
-        allTags.push(linkHTML);
+      if(!allTags.hasOwnProperty(tag)){
+        /* [NEW] add tag to allTags object*/
+        allTags[tag] = 1;
+      } else {
+        allTags[tag]++;
       }
-
       /* END LOOP: for each tag */
     }
     /* insert HTML of all the links into the tags wrapper */
@@ -302,8 +328,27 @@ function generateTagCloud() {
   }
   /* [NEW] find list of tags in right column */
   const tagList = document.querySelector(optTagsListSelector);
+  const tagsParams = calculateTagsParams(allTags);
+  console.log('tagsParams:', tagsParams)
+  console.log(allTags);
 
-  /* [NEW] add html from allTags to tagList */
-  tagList.innerHTML = allTags.join(' ');
+ /*[NEW] create variable for all links HTML code */
+
+ let allTagsHTML = '';
+ 
+ /*[NEW] start loop: for each tag in allTags: */
+ for(let tag in allTags){
+ /*[NEW] generate code of a link  and add it to allTagsHTML */
+ 
+  const tagLinkHTML = '<li><a href="#tag-' + tag +'" class="' + calculateTagClass(allTags[tag], tagsParams) +'">' + tag +'</a></li>';
+  console.log(tagLinkHTML);
+  allTagsHTML += tagLinkHTML;
+ //  [NEW] END LOOP: for each tag in allTags: */
+  }
+ /* [NEW] add html from allTagsHTML to tagList */
+ tagList.innerHTML = allTagsHTML;
+
 }
 generateTagCloud();
+
+
