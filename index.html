@@ -398,6 +398,40 @@
         </main>
       </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
+    <script id="template-article-link" type="text/x-handlebars-template">
+      <li><a href="#{{ id }}"><span>{{ title }}</span></a></li>
+    </script>
+    <script id="template-tag-link" type="text/x-handlebars-template">
+      <li><a href="#{{ id }}"><span>{{ title }}</span></a></li>
+    </script>
+      <script id="template-author-link" type="text/x-handlebars-template">
+        <li><a href="#{{ id }}"><span>{{ title }}</span></a></li>
+      </script>
+    <script id="template-tagCloud-link" type="text/x-handlebars-template">
+      {{#each tags}}
+      <li>{{ tag }}</li>
+      {{/each}}
+    </script>
+    <script id="template-authorColumn-link" type="text/x-handlebars-template">
+      <li><a href="#{{ id }}"><span>{{ title }}</span></a></li>
+    </script>
     <script src="js/script.js"></script>
+    <script id="template-product-list" type="text/x-handlebars-template">
+      <h3>{{ title }}</h3>
+      <ul>
+        {{#each products}}
+        <li id="{{ @key }}">Buy {{ name }} for {{ price }}!</li>
+        {{/each}}
+      </ul>
+    </script>
+    <script id="template-product-list" type="text/x-handlebars-template">
+      <h3>{{ title }}</h3>
+      <ul>
+        {{#each products}}
+        <li id="{{ @key }}">Buy {{ name }} for {{ price }}!</li>
+        {{/each}}
+      </ul>
+    </script>
   </body>
 </html>

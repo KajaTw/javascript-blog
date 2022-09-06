@@ -116,8 +116,36 @@ body {
 }
 
 .post-tags {
-  display: flex;
+  display: inline;
   p {
     margin: 0 10px 0 0;
   }
 }
+
+.tag-size-1 {
+ font-size: 20%;
+ color: blue;
+ display: inline;
+}
+
+.tag-size-2 {
+ font-size: 40%;
+ color: purple;
+ display: inline;
+}
+
+.tag-size-3 {
+  font-size: 60%;
+  color: green;
+  display: inline}
+
+.tag-size-4 {
+ font-size: 80%
+ display: inline;
+}
+
+.tag-size-5 {
+  font-size: 100%;
+  display: inline;
+}
+
